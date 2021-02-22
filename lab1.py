@@ -1,6 +1,18 @@
 import random as rand
 import itertools
 import time
+
+"""
+genRandomNumbers(minn, maxx,range):
+	Generate <<rangee>> Random numbers between minn and maxx 
+solve(ls,operation,target):
+	Finds the operations needed to reach the target sum using the numbers in ls
+	uses DFS to find the answer.
+	Works by brute forcing through every pair of numbers and performing the 4 arithmetic calculations
+	on them and then appending the result to the end of the array, then recursively calling the function
+	on the newly generated array.
+
+"""
 def genRandomNumbers(minn = 1,maxx = 13,rangee = 4):
 	ls = [rand.randint(minn,maxx) for i in range(rangee)]
 	return ls
