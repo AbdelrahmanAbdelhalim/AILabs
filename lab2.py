@@ -24,10 +24,11 @@ def createGame():
 
 def calculateInversions(ls):
 	inversions = 0
-	for foo in range(len(ls)):
-		for lee in range(foo,len(ls)):
-			if lee < foo:
+	for foo in range(len(ls) - 1):
+		for lee in range(foo,len(ls) - 1):
+			if ls[lee] < ls[foo]:
 				inversions += 1
+	print(inversions)
 	return inversions
 
 def solvableGame(numOfInversions):
