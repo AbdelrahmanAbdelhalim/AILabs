@@ -1,7 +1,25 @@
+import random as rand
+
+"""
+	createGame():
+		creates a solvable 8 game puzzle by random
+		Not very efficiend, maybe needs a fix
+"""
 def createGame():	
 	#Odd inversions means unsolvable
 	#Create Puzzle with even inversions
-	numTaken = [1 for i in range(8)]
+	ls = []
+	available = [i for i in range(1,9)]
+	for i in range(8):
+		nww = rand.randint(0,len(available) - 1	)
+		ls.append(available[nww])
+		available.pop(nww)
+	ls.append(0)
+	inversions = calculateInversions(ls)
+	if solvableGame(inversions):
+		return ls
+	else:
+		return createGame()
 
 
 def calculateInversions(ls):
@@ -12,8 +30,8 @@ def calculateInversions(ls):
 				inversions += 1
 	return inversions
 
-def solvableGame(numOfInversion):
-	if numOfInverions % 2 == 0:
+def solvableGame(numOfInversions):
+	if numOfInversions % 2 == 0:
 		return True
 	else:
 		return False
@@ -22,4 +40,5 @@ def solvableGame(numOfInversion):
 
 if __name__ == '__main__':
 	foo = createGame()
+	print(foo)
 	# solvePuzzle(foo)
