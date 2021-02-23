@@ -24,22 +24,28 @@ def createGame():
 
 def calculateInversions(ls):
 	inversions = 0
-	for foo in range(len(ls) - 1):
-		for lee in range(foo,len(ls) - 1):
+	for foo in range(len(ls)):
+		for lee in range(foo,len(ls)):
+			if ls[foo] == 0 or ls[lee] == 0:
+				continue
 			if ls[lee] < ls[foo]:
 				inversions += 1
-	print(inversions)
 	return inversions
-
+def findHeuristicValeu(ls):
+	
 def solvableGame(numOfInversions):
 	if numOfInversions % 2 == 0:
 		return True
 	else:
 		return False
 
-
+def printBoard(ls):
+	for k in range(len(ls)):
+		if k % 3 == 0:
+			print()
+		print(ls[k],end = ' ')
 
 if __name__ == '__main__':
 	foo = createGame()
-	print(foo)
+	printBoard(foo)
 	# solvePuzzle(foo)
