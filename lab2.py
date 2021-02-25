@@ -65,8 +65,8 @@ def solve(ls):
 	ls1 = ls.copy()
 	if zeroIndex - 1 >= 0:
 		swapValuesInList(ls1,zeroIndex,zeroIndex - 1)
-	ls1Heur = calculateHeuristic(ls1)
-	heuristicValues.append(ls1Heur)
+		ls1Heur = calculateHeuristic(ls1)
+		heuristicValues.append(ls1Heur)
 
 	ls2 = ls.copy()
 	if zeroIndex + 1 < len(ls):
