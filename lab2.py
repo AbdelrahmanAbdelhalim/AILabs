@@ -29,6 +29,7 @@ def calculateHeuristic(ls):
 			continue
 		if i + 1 != ls[i]:
 			heuristic += 1
+
 	for i in range(len(ls)):
 		if ls[i] == 0 :
 			continue
@@ -41,12 +42,11 @@ def calculateHeuristic(ls):
 
 def calculateInversions(ls):
 	inversions = 0
-	for foo in range(len(ls)):
-		for lee in range(foo,len(ls)):
-			if ls[foo] == 0 or ls[lee] == 0:
-				continue
-			if ls[lee] < ls[foo]:
-				inversions += 1
+	for l in range(len(ls)):
+		for r in range(l,len(ls)):
+			if ls[l] != 0 and ls[r] != 0:
+				if ls[l] > ls[r]:
+					inversions += 1
 	return inversions
 	
 def solvableGame(numOfInversions):
@@ -65,31 +65,34 @@ def swapValuesInList(ls,index1,index2):
 
 def solve(ls,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
 	zeroIndex = None
-	validLists = []
 	closedNodes.append(ls)
+	validLists = []
 	printBoard(ls)
-	if ls != goal:
+	if ls != goal and solvableGame(calculateInversions(ls)):
 		for i in range(len(ls)):
 			if ls[i] == 0:
 				zeroIndex = i
 		ls1 = ls.copy()
+
+		# Move Left
 		if (zeroIndex + 1)  % 3 != 1 :
 			swapValuesInList(ls1,zeroIndex,zeroIndex - 1)
 			if ls1 not in closedNodes:
 				validLists.append(ls1)
-
+		# Move Right
 		ls2 = ls.copy()
 		if (zeroIndex + 1) % 3 != 0:
 			swapValuesInList(ls2,zeroIndex,zeroIndex + 1)
 			if ls2 not in closedNodes:
 				validLists.append(ls2)
-
+		# Move Up
 		ls3 = ls.copy()
 		if zeroIndex - 3 >= 0:
 			swapValuesInList(ls3,zeroIndex,zeroIndex - 3)
 			if ls3 not in closedNodes:
 				validLists.append(ls3)
 
+		# Move Down
 		ls4 = ls.copy()
 		if zeroIndex + 3 < len(ls):
 			swapValuesInList(ls4,zeroIndex,zeroIndex + 3)
@@ -97,6 +100,7 @@ def solve(ls,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
 				validLists.append(ls4)
 
 		validLists = sorted(validLists,key = lambda x: calculateHeuristic(x))
+		print(validLists)
 		solve(validLists[0],closedNodes)
 
 
@@ -108,5 +112,6 @@ if __name__ == '__main__':
 	print()
 	print("initial State:")
 	printBoard(foo)
-	# print(solvableGame(calculateInversions([1,8,2,0,4,3,7,5,6])))
+	# print(calculateInversions([5,2,8,4,1,7,3,6]))
+	# print(solvableGame(calculateInversions([1,2,3,7,6,5,0,4,8])))
 	
