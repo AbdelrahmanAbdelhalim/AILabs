@@ -36,9 +36,9 @@ def calculateHeuristic(ls):
 		diffY = abs((int(i/3) - int(goalSquare/3)))
 		diffX = abs((i%3 - goalSquare%3))
 		manDistance += (diffX + diffY)
-	print(manDistance)
 	heuristic += manDistance
 	return heuristic
+
 def calculateInversions(ls):
 	inversions = 0
 	for foo in range(len(ls)):
@@ -50,10 +50,7 @@ def calculateInversions(ls):
 	return inversions
 	
 def solvableGame(numOfInversions):
-	if numOfInversions % 2 == 0:
-		return True
-	else:
-		return False
+	return numOfInversions % 2 == 0
 
 def printBoard(ls):
 	for k in range(len(ls)):
@@ -66,56 +63,50 @@ def swapValuesInList(ls,index1,index2):
 	ls[index1] = ls[index2]
 	ls[index2] = placeHolder
 
-def solve(ls,solutions,closedNodes):
+def solve(ls,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
 	zeroIndex = None
 	validLists = []
-	heuristicValues = []
-	if calculateInversions(ls) != 0:
+	closedNodes.append(ls)
+	printBoard(ls)
+	if ls != goal:
 		for i in range(len(ls)):
 			if ls[i] == 0:
 				zeroIndex = i
 		ls1 = ls.copy()
-		if zeroIndex - 1 >= 0:
+		if (zeroIndex + 1)  % 3 != 1 :
 			swapValuesInList(ls1,zeroIndex,zeroIndex - 1)
-			printBoard(ls1)
-			ls1Heur = calculateHeuristic(ls1)
-			validLists.append(ls1)
-			heuristicValues.append(ls1Heur)
+			if ls1 not in closedNodes:
+				validLists.append(ls1)
 
 		ls2 = ls.copy()
-		if zeroIndex + 1 < len(ls):
+		if (zeroIndex + 1) % 3 != 0:
 			swapValuesInList(ls2,zeroIndex,zeroIndex + 1)
-			printBoard(ls2)
-			ls2Heur = calculateHeuristic(ls2)
-			validLists.append(ls2)
-			heuristicValues.append(ls2Heur)
+			if ls2 not in closedNodes:
+				validLists.append(ls2)
 
 		ls3 = ls.copy()
 		if zeroIndex - 3 >= 0:
 			swapValuesInList(ls3,zeroIndex,zeroIndex - 3)
-			printBoard(ls3)
-			ls3Heur = calculateHeuristic(ls3)
-			validLists.append(ls3)
-			heuristicValues.append(ls3Heur)
+			if ls3 not in closedNodes:
+				validLists.append(ls3)
 
 		ls4 = ls.copy()
 		if zeroIndex + 3 < len(ls):
 			swapValuesInList(ls4,zeroIndex,zeroIndex + 3)
-			printBoard(ls4)
-			ls4Heur = calculateHeuristic(ls4)
-			validLists.append(ls4)
-			heuristicValues.append(ls4Heur)
-		minHeursitic = 1000
-		minHeursiticIndex = 0
-		for i in range(len(heuristicValues)):
-			if heuristicValues[i] < minHeursitic:
-				minHeursiticIndex = i
-		# solve(validLists[minHeursiticIndex],solutions)
+			if ls4 not in closedNodes:
+				validLists.append(ls4)
+
+		validLists = sorted(validLists,key = lambda x: calculateHeuristic(x))
+		solve(validLists[0],closedNodes)
+
 
 if __name__ == '__main__':
 	foo = createGame()
 	printBoard(foo)
-	boards = []
-	closed = [foo]
-	solve(foo,boards,closed)
+	print(calculateHeuristic(foo))
+	solve(foo,[])
+	print()
+	print("initial State:")
+	printBoard(foo)
+	# print(solvableGame(calculateInversions([1,8,2,0,4,3,7,5,6])))
 	
