@@ -21,7 +21,7 @@ def createGame():
 	else:
 		return createGame()
 
-def calculateHeuristic(ls):
+def calculateHeuristic(ls,depth):
 	heuristic = 0
 	manDistance = 0
 	for i in range(len(ls)):
@@ -38,6 +38,7 @@ def calculateHeuristic(ls):
 		diffX = abs((i%3 - goalSquare%3))
 		manDistance += (diffX + diffY)
 	heuristic += manDistance
+	heuristic += depth
 	return heuristic
 
 def calculateInversions(ls):
@@ -63,7 +64,7 @@ def swapValuesInList(ls,index1,index2):
 	ls[index1] = ls[index2]
 	ls[index2] = placeHolder
 
-def solve(ls,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
+def solve(ls,depth,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
 	zeroIndex = None
 	closedNodes.append(ls)
 	validLists = []
@@ -99,16 +100,16 @@ def solve(ls,closedNodes,goal = [1,2,3,4,5,6,7,8,0]):
 			if ls4 not in closedNodes:
 				validLists.append(ls4)
 
-		validLists = sorted(validLists,key = lambda x: calculateHeuristic(x))
-		print(validLists)
-		solve(validLists[0],closedNodes)
+		validLists = sorted(validLists,key = lambda x: calculateHeuristic(x,depth))
+		print(len(closedNodes))
+		depth += 1
+		solve(validLists[0],depth,closedNodes)
 
 
 if __name__ == '__main__':
 	foo = createGame()
 	printBoard(foo)
-	print(calculateHeuristic(foo))
-	solve(foo,[])
+	solve(foo,0,[])
 	print()
 	print("initial State:")
 	printBoard(foo)
