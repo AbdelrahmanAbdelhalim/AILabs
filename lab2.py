@@ -66,9 +66,8 @@ def swapValuesInList(ls,index1,index2):
 	ls[index1] = ls[index2]
 	ls[index2] = placeHolder
 
-def solve(ls,solutions):
+def solve(ls,solutions,closedNodes):
 	zeroIndex = None
-	heuristicValues = []
 	validLists = []
 	heuristicValues = []
 	if calculateInversions(ls) != 0:
@@ -78,6 +77,7 @@ def solve(ls,solutions):
 		ls1 = ls.copy()
 		if zeroIndex - 1 >= 0:
 			swapValuesInList(ls1,zeroIndex,zeroIndex - 1)
+			printBoard(ls1)
 			ls1Heur = calculateHeuristic(ls1)
 			validLists.append(ls1)
 			heuristicValues.append(ls1Heur)
@@ -85,6 +85,7 @@ def solve(ls,solutions):
 		ls2 = ls.copy()
 		if zeroIndex + 1 < len(ls):
 			swapValuesInList(ls2,zeroIndex,zeroIndex + 1)
+			printBoard(ls2)
 			ls2Heur = calculateHeuristic(ls2)
 			validLists.append(ls2)
 			heuristicValues.append(ls2Heur)
@@ -92,25 +93,29 @@ def solve(ls,solutions):
 		ls3 = ls.copy()
 		if zeroIndex - 3 >= 0:
 			swapValuesInList(ls3,zeroIndex,zeroIndex - 3)
+			printBoard(ls3)
 			ls3Heur = calculateHeuristic(ls3)
-			heuristicValues.append(ls3Heur)
 			validLists.append(ls3)
 			heuristicValues.append(ls3Heur)
 
 		ls4 = ls.copy()
 		if zeroIndex + 3 < len(ls):
 			swapValuesInList(ls4,zeroIndex,zeroIndex + 3)
+			printBoard(ls4)
 			ls4Heur = calculateHeuristic(ls4)
-			heuristicValues.append(ls4Heur)
 			validLists.append(ls4)
 			heuristicValues.append(ls4Heur)
-
-		minIndex = heuristicValues.index(min(heuristicValues))
-		solve(validLists[minIndex],solutions)
+		minHeursitic = 1000
+		minHeursiticIndex = 0
+		for i in range(len(heuristicValues)):
+			if heuristicValues[i] < minHeursitic:
+				minHeursiticIndex = i
+		# solve(validLists[minHeursiticIndex],solutions)
 
 if __name__ == '__main__':
 	foo = createGame()
 	printBoard(foo)
 	boards = []
-	solve(foo,boards)
+	closed = [foo]
+	solve(foo,boards,closed)
 	
