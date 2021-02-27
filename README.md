@@ -12,3 +12,6 @@
 ## Progress So Far:
 * Completed Lab 1 100%
 * Completed Lab 2 100% -> The algorithm gets stuck at a certain nodes, will need to be fixed later
+
+## People Banned from contributing to this repository:
+* Sherif Aly (Alientaor391)
